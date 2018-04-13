@@ -7,7 +7,7 @@ var bcrypt       = require('bcrypt');
 var nodemailer   = require('nodemailer');
           
 var config          = require('../config');
-var BussinessDal        = require('../dal/bussiness');
+var StandardDal        = require('../dal/standard');
 
 // no operation(noop) function
 exports.noop = function noop(req, res, next) {
@@ -17,7 +17,7 @@ exports.noop = function noop(req, res, next) {
   });
 };
 /**
- * Validate Bussiness 
+ * Validate Standard 
  */
 /**
  * @disc UserID id validation interface
@@ -41,7 +41,7 @@ exports.validateBussinessType = function validateBussinessType(req, res, next, i
     });
 
   } else {
-    BussinessDal.get({ _id: id }, function (err, doc) {
+    StandardDal.get({ _id: id }, function (err, doc) {
       if (doc._id) {
         req.doc = doc;
         next();
@@ -49,38 +49,38 @@ exports.validateBussinessType = function validateBussinessType(req, res, next, i
         res.status(404)
           .json({
             error: true, status: 404,
-            msg: 'Bussiness _id ' + id + ' not found'
+            msg: 'standard _id ' + id + ' not found'
           });
       }
     });
   }
 };
 
-exports.createBussiness =(req,res,next)=>{
+exports.createStandard =(req,res,next)=>{
  res.json({
     error:false,
     message: 'To Implemented!'
   });
 };
-exports.updateBussiness =(req,res,next)=>{
+exports.updateStandard =(req,res,next)=>{
  res.json({
     error:false,
     message: 'To Implemented!'
   });
 };
-exports.deleteBussiness =(req,res,next)=>{
+exports.deleteStandard =(req,res,next)=>{
  res.json({
     error:false,
     message: 'To Implemented!'
   });
 };
-exports.getBussiness =(req,res,next)=>{
+exports.getStandard =(req,res,next)=>{
  res.json({
     error:false,
     message: 'To Implemented!'
   });
 };
-exports.getAllBussiness =(req,res,next)=>{
+exports.getAllStandard =(req,res,next)=>{
  res.json({
     error:false,
     message: 'To Implemented!'
