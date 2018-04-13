@@ -14,8 +14,8 @@ var Schema = mongoose.Schema;
 var SurveySchema = new Schema({
   
   bussiness:   { type: Schema.Types.ObjectId, ref: 'Bussiness'},
-  sector:      { type: Schema.Types.ObjectId, ref: 'Sector'},
   type:        { type: Schema.Types.ObjectId, ref: 'BussinessType'},
+  standard:    { type: Schema.Types.ObjectId, ref: 'Standard'},
   client:      { type: Schema.Types.ObjectId, ref: 'Client'},
   status:      { type: String },
   region:      { type: String },
