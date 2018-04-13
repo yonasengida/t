@@ -8,6 +8,7 @@ var nodemailer   = require('nodemailer');
           
 var config          = require('../config');
 var BussinessDal        = require('../dal/bussiness');
+var StandardDal        = require('../dal/standard');
 
 // no operation(noop) function
 exports.noop = function noop(req, res, next) {
@@ -55,36 +56,94 @@ exports.validateBussinessType = function validateBussinessType(req, res, next, i
     });
   }
 };
-
+/**
+ * Create Bussiness
+ */
 exports.createBussiness =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+   var body= req.body;
+    var now = moment().toISOString();
+    req.checkBody('name')
+        .notEmpty().withMessage('Name Should not be empty');
+
+    req.checkBody('type')
+        .notEmpty().withMessage('Business  Type should not be empty').isMongoId().withMessage('Business  Type Should Be the right ID');
+       
+   
+        var validationErrors = req.validationErrors();
+
+    if (validationErrors) {
+        res.status(400);
+        res.json(validationErrors);
+        return;
+    }
+    BussinessDal.get({ name: body.name }, (err, doc) => {
+      if (err) {
+        return next(err);
+      }
+     if(doc._id){
+       res.json({msg:"Already Taken",error:true,status:400});
+       return
+     }
+     BussinessDal.create(body,(err,doc)=>{
+       if(err){
+         return next(err);
+       }
+       res.json(doc);
+     })
+    })
 };
-exports.updateBussiness =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+/**
+ * Update Bussiness
+ */
+exports.updateBussiness = (req, res, next) => {
+  let body = req.body;
+  BussinessDal.update({_id: req.doc._id },body, (err, doc) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(doc);
+  })
 };
-exports.deleteBussiness =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+/**
+ * Delete Bussiness
+ */
+exports.deleteBussiness = (req, res, next) => {
+  BussinessDal.delete({ _id: req.doc._id }, (err, doc) => {
+    if (err) {
+      return nxt(err);
+    }
+    res.json(doc);
+  })
 };
-exports.getBussiness =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+/**
+ * Get Specific Business
+ */
+exports.getBussiness = (req, res, next) => {
+  res.json(req.doc);
 };
+/**
+ * GET ALL BUSINESS
+ */
 exports.getAllBussiness =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+BussinessDal.getCollection({},{},(err,docs)=>{
+  if(err){
+    return next(err);
+  }
+  res.json(docs);
+})
 };
 
 
+/**
+ * GET Specific Bussiness Standards
+ */
+exports.getStandards = (req, res, next) => {
+  let query = { business: req.doc._id }
+
+  StandardDal.getCollection(query, {}, (err, docs) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(docs);
+  });
+};

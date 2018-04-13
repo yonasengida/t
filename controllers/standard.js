@@ -57,34 +57,71 @@ exports.validateBussinessType = function validateBussinessType(req, res, next, i
 };
 
 exports.createStandard =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+ var body= req.body;
+    var now = moment().toISOString();
+    req.checkBody('name')
+        .notEmpty().withMessage('Name Should not be empty');
+
+    req.checkBody('business')
+        .notEmpty().withMessage('Business  should not be empty').isMongoId().withMessage('Business Should Be the right ID');
+       
+   
+        var validationErrors = req.validationErrors();
+
+    if (validationErrors) {
+        res.status(400);
+        res.json(validationErrors);
+        return;
+    }
+    StandardDal.get({ name: body.name }, (err, doc) => {
+      if (err) {
+        return next(err);
+      }
+     if(doc._id){
+       res.json({msg:"Already Taken",error:true,status:400});
+       return
+     }
+     StandardDal.create(body,(err,doc)=>{
+       if(err){
+         return next(err);
+       }
+       res.json(doc);
+     })
+    })
 };
-exports.updateStandard =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+/**
+ * Update Standard
+ */
+exports.updateStandard = (req, res, next) => {
+    let body = req.body;
+    StandardDal.update({ _id: req.doc._id }, body, (err, doc) => {
+        if (err) {
+            return next(err);
+        }
+        res.json(doc);
+    });
 };
-exports.deleteStandard =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+/**
+ * Delete Standard
+ */
+exports.deleteStandard = (req, res, next) => {
+    StandardDal.delete({ _id: req.doc._id }, (err, doc) => {
+        if (err) {
+            return next(err);
+        }
+        res.json(doc);
+    })
 };
 exports.getStandard =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+ res.json(req.doc);
 };
 exports.getAllStandard =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+StandardDal.getCollection({},{},(err,docs)=>{
+    if(err){
+        return next(err);
+    }
+    res.json(docs);
+})
 };
 
 

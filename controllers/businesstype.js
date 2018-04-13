@@ -8,6 +8,7 @@ var nodemailer   = require('nodemailer');
           
 var config          = require('../config');
 var BussinessTypeDal        = require('../dal/bussinesstype');
+var BusinessDal        = require('../dal/bussiness');
 
 // no operation(noop) function
 exports.noop = function noop(req, res, next) {
@@ -55,36 +56,77 @@ exports.validateBussinessType = function validateBussinessType(req, res, next, i
     });
   }
 };
-
-exports.createBussinessType =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
+/**
+ * Create Bussiness Type
+ */
+exports.createBussinessType = (req, res, next) => {
+  let body = req.body;
+  BussinessTypeDal.get({ name: body.name }, (err, doc) => {
+    if (err) {
+      return nxt(err);
+    }
+    if (doc._id) {
+      res.json({ msg: "Already Taken", error: true, status: 400 });
+      return;
+    }
+    BussinessTypeDal.create(body, (err, docs) => {
+      if (err) {
+        return next(err);
+      }
+      res.json(docs);
+    })
   });
 };
-exports.updateBussinessType =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
+/**
+ * Update Business Type
+ */
+exports.updateBussinessType = (req, res, next) => {
+  let body =req.body;
+  BussinessTypeDal.update({ _id: req.doc._id },body, (err, doc) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(doc);
   });
 };
-exports.deleteBussinessType =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
+/**
+ * Delete Business
+ */
+exports.deleteBussinessType = (req, res, next) => {
+  BussinessTypeDal.delete({ _id: req.doc._id }, (err, doc) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(doc);
   });
 };
+/**
+ * Get Business
+ */
 exports.getBussinessType =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
+res.json(req.doc);
+};
+/**
+ * Get All Business
+ */
+exports.getAllBussinessType = (req, res, next) => {
+  BussinessTypeDal.getCollection({},{}, (err, docs) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(docs);
+  })
+};
+/**
+ * GET Specific Bussiness
+ */
+exports.getSpecificBusiness = (req, res, next) => {
+  let query = { type: req.doc._id }
+
+  BusinessDal.getCollection(query, {}, (err, docs) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(docs);
   });
 };
-exports.getAllBussinessType =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
-};
-
-

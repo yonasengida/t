@@ -12,6 +12,8 @@ const servicesRouter       =require('./service');
 const sectorsRouter       =require('./sector');
 const businessRouter       =require('./business');
 const businesstypeRouter       =require('./businesstype');
+const standardRouter       =require('./standard');
+const surveyRouter       =require('./survey');
 
 const config                = require('../config');
 
@@ -27,6 +29,8 @@ module.exports = function initRoutes(app) {
   app.use('/sectors', sectorsRouter);
   app.use('/business', businessRouter);
   app.use('/businesstypes', businesstypeRouter);
+  app.use('/standards', standardRouter);
+  app.use('/surveys', surveyRouter);
  
  
 

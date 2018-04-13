@@ -29,7 +29,7 @@ exports.create = function create(businesstypeData, cb) {
   debug('creating a new businesstype');
 
     // Create businesstype if is new.
-    var businesstypeModel  = new Businesstype(businesstypeData);
+    var businesstypeModel  = new BusinessType(businesstypeData);
 
     businesstypeModel.save(function savebusinesstype(err, data) {
       if (err) {
@@ -62,7 +62,7 @@ exports.create = function create(businesstypeData, cb) {
 exports.delete = function deleteItem(query, cb) {
   debug('deleting businesstype: ', query);
 
-  Businesstype
+  BusinessType
     .findOne(query)
     .populate(population)
     .exec(function deletebusinesstype(err, doc) {
@@ -74,7 +74,7 @@ exports.delete = function deleteItem(query, cb) {
         return cb(null, {});
       }
 
-      Businesstype.remove(query,function(err) {
+      BusinessType.remove(query,function(err) {
         if(err) {
           return cb(err);
         }
@@ -106,7 +106,7 @@ exports.update = function update(query, updates,  cb) {
 
   // updates = mongoUpdate(updates);
 
-  Businesstype
+  BusinessType
     .findOneAndUpdate(query, updates, opts)
     .populate(population)
     .exec(function updatebusinesstype(err, doc) {
@@ -129,7 +129,7 @@ exports.update = function update(query, updates,  cb) {
 exports.get = function get(query, cb) {
   debug('getting businesstype ', query);
 
-  Businesstype
+  BusinessType
     .findOne(query)
     .populate(population)
     .exec(function(err, doc) {
@@ -152,7 +152,7 @@ exports.get = function get(query, cb) {
 exports.getCollection = function getCollection(query, opt, cb) {
   debug('fetching a collection of businesstypes');
 
- Businesstype.find(query,opt)
+ BusinessType.find(query,opt)
 .populate(population)
     .exec(function getbusinesstypesCollection(err, doc) {
       if(err) {
@@ -182,7 +182,7 @@ exports.getCollectionByPagination = function getCollection(query, qs, cb) {
     page:     qs.page,
     limit:    qs.limit
   };
-  Businesstype.paginate(query, opts, function (err, docs, page, count) {
+  BusinessType.paginate(query, opts, function (err, docs, page, count) {
     if(err) {
       return cb(err);
     }

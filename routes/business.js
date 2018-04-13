@@ -13,13 +13,14 @@ var accessControl  = require('../controllers/auth').accessControl;
 
 var router  = express.Router();
 
-router.post('/',businessController.noop);
+router.post('/',businessController.createBussiness);
 
-router.get('/', businessController.noop);
-router.param('id',businessController.noop);
-// router.get('/:id', sectorController.fetchOne);
-// router.delete('/:id', sectorController.deleteSector);
-// router.put('/:id', sectorController.update);
+router.get('/', businessController.getAllBussiness);
+router.param('id',businessController.validateBussinessType);
+router.get('/:id', businessController.getBussiness);
+router.get('/:id/standards', businessController.getStandards);
+router.delete('/:id', businessController.deleteBussiness);
+router.put('/:id', businessController.updateBussiness);
 
 // Expose User Router
 module.exports = router;
