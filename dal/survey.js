@@ -74,7 +74,7 @@ exports.delete = function deleteItem(query, cb) {
         return cb(null, {});
       }
 
-      survey.remove(query,function(err) {
+      Survey.remove(query,function(err) {
         if(err) {
           return cb(err);
         }

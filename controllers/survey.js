@@ -41,7 +41,7 @@ exports.validateBussinessType = function validateBussinessType(req, res, next, i
     });
 
   } else {
-    StandardDal.get({ _id: id }, function (err, doc) {
+    SurveyDal.get({ _id: id }, function (err, doc) {
       if (doc._id) {
         req.doc = doc;
         next();
@@ -57,34 +57,98 @@ exports.validateBussinessType = function validateBussinessType(req, res, next, i
 };
 
 exports.createSurvey =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+var body= req.body;
+    var now = moment().toISOString();
+    req.checkBody('city')
+        .notEmpty().withMessage('City Should not be empty');
+
+    req.checkBody('subcity')
+        .notEmpty().withMessage('Subcity Should not be empty');
+
+    req.checkBody('woreda')
+        .notEmpty().withMessage('Woreda Should not be empty');
+    
+    req.checkBody('type')
+        .notEmpty().withMessage('Business Type  should not be empty').isMongoId().withMessage('Business TYpe Should Be the right ID');
+       
+    req.checkBody('business')
+        .notEmpty().withMessage('Specific Business  should not be empty').isMongoId().withMessage('Specific Business  Should Be the right ID');
+    req.checkBody('standard')
+        .notEmpty().withMessage('Standard should not be empty').isMongoId().withMessage('Standard  Should Be the right ID');
+    
+     req.checkBody('status', 'Status is Invalid!')
+      .notEmpty().withMessage('Status should not be Empty')
+      .isIn(['UNAVAILABLE', 'AVAILABLE','SCARCE']).withMessage('Status should either be UNAVAILABLE, AVAILABLE,SCARCE');
+   if(body.status != 'UNAVAILABLE'){
+      req.checkBody('quantity')
+        .notEmpty().withMessage('Quantity Should not be empty');
+
+   }
+  var validationErrors = req.validationErrors();
+
+    if (validationErrors) {
+        res.status(400);
+        res.json(validationErrors);
+        return;
+    }
+    body.client= req._user.client;
+    SurveyDal.create(body, (err, doc) => {
+      if (err) {
+        return next(err);
+      }
+      res.json(doc);
+    })
 };
-exports.updateSurvey =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+/**
+ * Update Survey
+ */
+exports.updateSurvey = (req, res, next) => {
+  let body = req.body;
+  SurveyDal.update({ _id: req.doc._id }, body, (err, doc) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(doc);
+  })
 };
+/**
+ * Delete Survey
+ */
 exports.deleteSurvey =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+  SurveyDal.delete({ _id: req.doc._id }, (err, doc) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(doc);
+  })
 };
 exports.getSurvey =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
-  });
+res.json(req.doc);
 };
-exports.getAllSurvey =(req,res,next)=>{
- res.json({
-    error:false,
-    message: 'To Implemented!'
+/**
+ * G ALL SURVEY
+ */
+exports.getAllSurvey = (req, res, next) => {
+  SurveyDal.getCollection({}, {}, (err, docs) => {
+    if(err){
+      return next(err);
+    }
+    res.json(docs);
   });
 };
 
 
+/**
+ * Get My Syrvey
+ */
+
+exports.getMySurvey = (req,res,next)=>{
+  let query={client:req._user.client,status:req.query.status};
+  // let query={client:req._user.client};
+  SurveyDal.getCollection(query,{},(err,docs)=>{
+    if(err){
+      return next(err);
+    }
+    res.json(docs);
+  });
+}
