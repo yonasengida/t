@@ -23,6 +23,8 @@ var SurveySchema = new Schema({
   woreda:      { type: String },
   kebele:      { type: String },
   street:      { type: String },
+  city:      { type: String },
+  subcity:      { type: String },
   quantity:    { type: Number },
   user:        { type: Schema.Types.ObjectId, ref: 'User'},
   archived :   { type: Boolean, default:false },

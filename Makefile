@@ -19,22 +19,4 @@ db.classes.findAndModify({
 
 https://www.mattburkedev.com/updating-inside-a-nested-array-with-the-mongodb-positional-operator-in-c-number/
 
-'use strict';
 
-const data = [{
-	Group: 'A',
-	Name: 'SD'
-}, {
-	Group: 'B',
-	Name: 'FI'
-}, {
-	Group: 'A',
-	Name: 'MM'
-}, {
-	Group: 'B',
-	Name: 'CO'
-}];
-
-let unique = [...new Set(data.map(item => item.Group))];
-console.log(unique);
-//console.log(...new Set(data.map(item => item.Group)));
