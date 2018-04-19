@@ -1,4 +1,4 @@
-Host: 159.65.228.222
+Host:  159.65.228.222
 scp username@b:/path/to/file /path/to/destination
 scp /path/to/file username@a:/path/to/destination
 
