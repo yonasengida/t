@@ -11,19 +11,19 @@ var Survey        = require('../models/survey');
 var mongoUpdate = require('../lib/mongo-update');
 // var returnFields = survey.whitelist;
 var population = [
-   {
-    path: 'standard'
-   },
+  //  {
+  //   path: 'standard'
+  //  },
     {
     path: 'client'
-   },
-    {
-    path: 'business'
    }
-   ,
-    {
-    path: 'type'
-   }
+  //   {
+  //   path: 'business'
+  //  }
+  //  ,
+  //   {
+  //   path: 'type'
+  //  }
 ];
 /**
  * create a new survey.

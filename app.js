@@ -23,8 +23,8 @@ var app = express();
 var server;
 
 // connect to mongoDB
-mongoose.connect(config.MONGODB.URL, config.MONGODB.OPTS);
-
+// mongoose.connect(config.MONGODB.URL, config.MONGODB.OPTS);
+mongoose.connect(config.MONGODB.URL, { useMongoClient: true });
 // MongoDB error handler
 mongoose.connection.on('error', utils.mongoError);
 

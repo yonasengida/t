@@ -7,6 +7,7 @@ var bcrypt       = require('bcrypt');
 var nodemailer   = require('nodemailer');
           
 var config          = require('../config');
+var SurveyModel       = require('../models/survey');
 var SurveyDal        = require('../dal/survey');
 
 // no operation(noop) function
@@ -69,12 +70,12 @@ var body= req.body;
         .notEmpty().withMessage('Woreda Should not be empty');
     
     req.checkBody('type')
-        .notEmpty().withMessage('Business Type  should not be empty').isMongoId().withMessage('Business TYpe Should Be the right ID');
+        .notEmpty().withMessage('Business Type  should not be empty');
        
     req.checkBody('business')
-        .notEmpty().withMessage('Specific Business  should not be empty').isMongoId().withMessage('Specific Business  Should Be the right ID');
+        .notEmpty().withMessage('Specific Business  should not be empty');
     req.checkBody('standard')
-        .notEmpty().withMessage('Standard should not be empty').isMongoId().withMessage('Standard  Should Be the right ID');
+        .notEmpty().withMessage('Standard should not be empty');
     
      req.checkBody('status', 'Status is Invalid!')
       .notEmpty().withMessage('Status should not be Empty')
@@ -152,3 +153,22 @@ exports.getMySurvey = (req,res,next)=>{
     res.json(docs);
   });
 }
+
+exports.countSurvey =(req,res,next)=>{
+  let query={}
+if(req.query.query){
+  query=req.query.query
+}
+  SurveyModel.aggregate(
+    [
+      { "$match": query},
+ 
+    {"$group" : {_id:{standard:"$standard",type:"$type",status:"$status",business:"$business"}, count:{$sum:1}}} ]
+  ,(err,docs)=>{
+    if(err){
+      return next(err);
+    }
+     res.json(docs);
+  })
+
+};

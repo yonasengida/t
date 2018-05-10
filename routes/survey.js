@@ -16,6 +16,7 @@ var router  = express.Router();
 router.post('/',surveyController.createSurvey);
 
 router.get('/', surveyController.getAllSurvey);
+router.get('/summary', surveyController.countSurvey);
 router.get('/mysurvey', surveyController.getMySurvey);
 router.param('id',surveyController.validateBussinessType);
 router.get('/:id', surveyController.getSurvey);
