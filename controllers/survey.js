@@ -154,7 +154,7 @@ exports.getMySurvey = (req,res,next)=>{
   });
 }
 
-exports.countSurvey =(req,res,next)=>{
+exports.surveySummary =(req,res,next)=>{
   let query={}
 if(req.query.query){
   query=req.query.query
@@ -163,7 +163,7 @@ if(req.query.query){
     [
       { "$match": query},
  
-    {"$group" : {_id:{standard:"$standard",type:"$type",status:"$status",business:"$business"}, count:{$sum:1}}} ]
+    {"$group" : {_id:{standard:"$standard",type:"$type",status:"$status",business:"$business",city:"$city",subcity:"$subcity"}, count:{$sum:1}}} ]
   ,(err,docs)=>{
     if(err){
       return next(err);

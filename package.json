@@ -17,13 +17,10 @@
   },
   "author": "Yonas Engida <yengida@gmail.com>",
   "license": "",
-  "bugs": {
-    
-  },
+  "bugs": {},
   "engines": {
     "node": ">=6.9.5"
   },
-  
   "dependencies": {
     "async": "~1.4.2",
     "bcrypt": "^2.0.1",
