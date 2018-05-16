@@ -85,6 +85,10 @@ var body= req.body;
         .notEmpty().withMessage('Quantity Should not be empty');
 
    }
+   if (body.status == 'UNAVAILABLE') {
+     body.quantity = 0;
+
+   }
   var validationErrors = req.validationErrors();
 
     if (validationErrors) {
@@ -123,6 +127,9 @@ exports.deleteSurvey =(req,res,next)=>{
     res.json(doc);
   })
 };
+/**
+ * GET SURVEY
+ */
 exports.getSurvey =(req,res,next)=>{
 res.json(req.doc);
 };
@@ -130,7 +137,11 @@ res.json(req.doc);
  * G ALL SURVEY
  */
 exports.getAllSurvey = (req, res, next) => {
-  SurveyDal.getCollection({}, {}, (err, docs) => {
+    let query={}
+if(req.query.query){
+  query=req.query.query
+}
+  SurveyDal.getCollection(query, {}, (err, docs) => {
     if(err){
       return next(err);
     }
