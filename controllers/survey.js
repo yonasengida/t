@@ -85,6 +85,10 @@ var body= req.body;
         .notEmpty().withMessage('Quantity Should not be empty');
 
    }
+   if (body.status == 'UNAVAILABLE') {
+     body.quantity = 0;
+
+   }
   var validationErrors = req.validationErrors();
 
     if (validationErrors) {
@@ -93,6 +97,7 @@ var body= req.body;
         return;
     }
     body.client= req._user.client;
+    body.bef_status=body.status;
     SurveyDal.create(body, (err, doc) => {
       if (err) {
         return next(err);
@@ -123,6 +128,9 @@ exports.deleteSurvey =(req,res,next)=>{
     res.json(doc);
   })
 };
+/**
+ * GET SURVEY
+ */
 exports.getSurvey =(req,res,next)=>{
 res.json(req.doc);
 };
@@ -130,7 +138,11 @@ res.json(req.doc);
  * G ALL SURVEY
  */
 exports.getAllSurvey = (req, res, next) => {
-  SurveyDal.getCollection({}, {}, (err, docs) => {
+    let query={}
+if(req.query.query){
+  query=req.query.query
+}
+  SurveyDal.getCollection(query, {}, (err, docs) => {
     if(err){
       return next(err);
     }
@@ -153,8 +165,13 @@ exports.getMySurvey = (req,res,next)=>{
     res.json(docs);
   });
 }
-
-exports.countSurvey =(req,res,next)=>{
+/**
+ * SUMMARY SURVEY
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+exports.surveySummary =(req,res,next)=>{
   let query={}
 if(req.query.query){
   query=req.query.query
@@ -163,7 +180,71 @@ if(req.query.query){
     [
       { "$match": query},
  
-    {"$group" : {_id:{standard:"$standard",type:"$type",status:"$status",business:"$business"}, count:{$sum:1}}} ]
+    {"$group" : {_id:{standard:"$standard",type:"$type",status:"$status",business:"$business",city:"$city",subcity:"$subcity"}, count:{$sum:1}}} ]
+  ,(err,docs)=>{
+    if(err){
+      return next(err);
+    }
+     res.json(docs);
+  })
+
+};
+/**
+ * Summary By Business
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+exports.surveySummaryByBusiness =(req,res,next)=>{
+  let query={}
+if(req.query.query){
+  query=req.query.query
+}
+// console.log(query);
+  SurveyModel.aggregate(
+    [
+      { "$match": query},
+ 
+    {"$group" : {_id:{business:"$business"}, quantity:{$sum:1}}},
+    { 
+      $addFields: { business_name: "$_id" }
+    },
+    {
+      $project: { _id: 0 }
+    }
+   ]
+  ,(err,docs)=>{
+    if(err){
+      return next(err);
+    }
+     res.json(docs);
+  })
+
+};
+/**
+ * BUSINESS QUANTITY
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+exports.surveySummaryByBusinessQuantity =(req,res,next)=>{
+  let query={}
+if(req.query.query){
+  query=req.query.query
+}
+// console.log(query);
+  SurveyModel.aggregate(
+    [
+      { "$match": query},
+ 
+    {"$group" : {_id:{business:"$business"}, prev_quantity:{$sum:"$quantity"},new_quantity:{$sum:"$new_quantity"}}},
+    { 
+      $addFields: { business_name: "$_id" }
+    },
+    {
+      $project: { _id: 0 }
+    }
+   ]
   ,(err,docs)=>{
     if(err){
       return next(err);

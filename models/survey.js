@@ -14,7 +14,7 @@ var Schema = mongoose.Schema;
 var SurveySchema = new Schema({
   
   // bussiness:   { type: Schema.Types.ObjectId, ref: 'Bussiness'},
-  business:   { type: String},
+  business:    { type: String},
   // type:        { type: Schema.Types.ObjectId, ref: 'BusinessType'},
   type:        { type:String},
   // standard:    { type: Schema.Types.ObjectId, ref: 'Standard'},
@@ -22,7 +22,6 @@ var SurveySchema = new Schema({
   client:      { type: Schema.Types.ObjectId, ref: 'Client'},
   status:      { type: String },
   bef_status:  { type: String },
-  af_status:   { type: String },
   region:      { type: String },
   zone:        { type: String },
   woreda:      { type: String },
@@ -31,6 +30,7 @@ var SurveySchema = new Schema({
   city:        { type: String },
   subcity:     { type: String },
   quantity:    { type: Number },
+  new_quantity:{ type: Number },
   user:        { type: Schema.Types.ObjectId, ref: 'User'},
   archived :   { type: Boolean, default:false },
   archived_at: { type: Date, default:null},

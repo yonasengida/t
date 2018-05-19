@@ -16,7 +16,11 @@ var router  = express.Router();
 router.post('/',surveyController.createSurvey);
 
 router.get('/', surveyController.getAllSurvey);
-router.get('/summary', surveyController.countSurvey);
+router.get('/summary', surveyController.surveySummary);
+router.get('/summary/business', surveyController.surveySummaryByBusiness);
+router.get('/summary/business/q', surveyController.surveySummaryByBusinessQuantity);
+
+
 router.get('/mysurvey', surveyController.getMySurvey);
 router.param('id',surveyController.validateBussinessType);
 router.get('/:id', surveyController.getSurvey);
