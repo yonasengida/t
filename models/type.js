@@ -22,5 +22,5 @@ var TypeSchema = new Schema({
 },{versionKey: false});
 // add middleware to support pagination
 TypeSchema.plugin(paginator);
-// Expose the Admin Model
+// Expose the Type Model
 module.exports = mongoose.model('Type', TypeSchema);

@@ -1,15 +1,15 @@
 'use strict';
-// Access Layer for sector Data.
+// Access Layer for Type Data.
 
 /**
  * Load Module Dependencies.
  */
-var debug   = require('debug')('api:dal-sector');
+var debug   = require('debug')('api:dal-Type');
 var moment  = require('moment');
 var _       = require('lodash');
-var Sector        = require('../models/sector');
+var Type        = require('../models/Type');
 var mongoUpdate = require('../lib/mongo-update');
-// var returnFields = sector.whitelist;
+// var returnFields = Type.whitelist;
 var population = [
   //  {
   //   path: 'created_by',
@@ -17,21 +17,21 @@ var population = [
   // }
 ];
 /**
- * create a new sector.
+ * create a new Type.
  *
- * @desc  creates a new sector and saves them
+ * @desc  creates a new Type and saves them
  *        in the database
  *6
- * @param {Object}  sectorData  Data for the sector to create
+ * @param {Object}  TypeData  Data for the Type to create
  * @param {Function} cb       Callback for once saving is complete
  */
-exports.create = function create(sectorData, cb) {
-  debug('creating a new sector');
+exports.create = function create(TypeData, cb) {
+  debug('creating a new Type');
 
-    // Create sector if is new.
-    var sectorModel  = new Sector(sectorData);
+    // Create Type if is new.
+    var TypeModel  = new Type(TypeData);
 
-    sectorModel.save(function savesector(err, data) {
+    TypeModel.save(function saveType(err, data) {
       if (err) {
         return cb(err);
       }
@@ -51,21 +51,21 @@ exports.create = function create(sectorData, cb) {
   };
 
 /**
- * delete a sector
+ * delete a Type
  *
- * @desc  delete data of the sector with the given
+ * @desc  delete data of the Type with the given
  *        id
  *
  * @param {Object}  query   Query Object
  * @param {Function} cb Callback for once delete is complete
  */
 exports.delete = function deleteItem(query, cb) {
-  debug('deleting sector: ', query);
+  debug('deleting Type: ', query);
 
-  Sector
+  Type
     .findOne(query)
     .populate(population)
-    .exec(function deletesector(err, doc) {
+    .exec(function deleteType(err, doc) {
       if (err) {
         return cb(err);
       }
@@ -74,7 +74,7 @@ exports.delete = function deleteItem(query, cb) {
         return cb(null, {});
       }
 
-      Sector.remove(query,function(err) {
+      Type.remove(query,function(err) {
         if(err) {
           return cb(err);
         }
@@ -87,9 +87,9 @@ exports.delete = function deleteItem(query, cb) {
 };
 
 /**
- * update a sector
+ * update a Type
  *
- * @desc  update data of the sector with the given
+ * @desc  update data of the Type with the given
  *        id
  *
  * @param {Object} query Query object
@@ -97,7 +97,7 @@ exports.delete = function deleteItem(query, cb) {
  * @param {Function} cb Callback for once update is complete
  */
 exports.update = function update(query, updates,  cb) {
-  debug('updating sector: ', query);
+  debug('updating Type: ', query);
 
   var now = moment().toISOString();
   var opts = {
@@ -106,10 +106,10 @@ exports.update = function update(query, updates,  cb) {
 
   // updates = mongoUpdate(updates);
 
-  Sector
+  Type
     .findOneAndUpdate(query, updates, opts)
     .populate(population)
-    .exec(function updatesector(err, doc) {
+    .exec(function updateType(err, doc) {
       if(err) {
         return cb(err);
       }
@@ -119,17 +119,17 @@ exports.update = function update(query, updates,  cb) {
 };
 
 /**
- * get a sector.
+ * get a Type.
  *
- * @desc get a sector with the given id from db
+ * @desc get a Type with the given id from db
  *
  * @param {Object} query Query Object
  * @param {Function} cb Callback for once fetch is complete
  */
 exports.get = function get(query, cb) {
-  debug('getting sector ', query);
+  debug('getting Type ', query);
 
-  Sector
+  Type
     .findOne(query)
     .populate(population)
     .exec(function(err, doc) {
@@ -142,19 +142,19 @@ exports.get = function get(query, cb) {
 };
 
 /**
- * get a collection of sectors
+ * get a collection of Types
  *
- * @desc get a collection of sectors from db
+ * @desc get a collection of Types from db
  *
  * @param {Object} query Query Object
  * @param {Function} cb Callback for once fetch is complete
  */
 exports.getCollection = function getCollection(query, opt, cb) {
-  debug('fetching a collection of sectors');
+  debug('fetching a collection of Types');
 
- Sector.find(query,opt)
+ Type.find(query,opt)
 .populate(population)
-    .exec(function getsectorsCollection(err, doc) {
+    .exec(function getTypesCollection(err, doc) {
       if(err) {
         return cb(err);
       }
@@ -165,15 +165,15 @@ exports.getCollection = function getCollection(query, opt, cb) {
 };
 
 /**
- * get a collection of sectors using pagination
+ * get a collection of Types using pagination
  *
- * @desc get a collection of sectors from db
+ * @desc get a collection of Types from db
  *
  * @param {Object} query Query Object
  * @param {Function} cb Callback for once fetch is complete
  */
 exports.getCollectionByPagination = function getCollection(query, qs, cb) {
-  debug('fetching a collection of sectors');
+  debug('fetching a collection of Types');
 
   var opts = {
     // columns:  returnFields,
@@ -182,7 +182,7 @@ exports.getCollectionByPagination = function getCollection(query, qs, cb) {
     page:     qs.page,
     limit:    qs.limit
   };
-  Sector.paginate(query, opts, function (err, docs, page, count) {
+  Type.paginate(query, opts, function (err, docs, page, count) {
     if(err) {
       return cb(err);
     }

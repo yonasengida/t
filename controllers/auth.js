@@ -18,7 +18,7 @@ var UserDal         = require('../dal/user');
 var TokenDal        = require('../dal/token');
 var AdminDal        = require('../dal/admin');
 var ClientDal       = require('../dal/client');
-var OrganizationDal = require('../dal/organization');
+
 
 var config      = require('../config');
 var CustomError = require('../lib/custom-error');

@@ -7,7 +7,7 @@ var bcrypt       = require('bcrypt');
 var nodemailer   = require('nodemailer');
           
 var config          = require('../config');
-var TypeDal       = require('../dal/Type');
+var TypeDal       = require('../dal/type');
 
 
 // no operation(noop) function

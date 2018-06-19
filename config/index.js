@@ -3,9 +3,9 @@
 var path = require('path');
 var env     = process.env;
 
-var PORT        = env.PORT || 8081;
-var API_URL     = env.API_URL || '127.0.0.1:8081';
-var MONGODB_URL = env.MONGODB_URL || 'mongodb://127.0.0.1:27017/be';
+var PORT        = env.PORT || 8082;
+var API_URL     = env.API_URL || '127.0.0.1:8082';
+var MONGODB_URL = env.MONGODB_URL || 'mongodb://127.0.0.1:27017/tikoma';
 var NODE_ENV    = env.NODE_ENV || 'development';
 var HOST        = env.HOST || 'localhost';
 
