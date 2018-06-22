@@ -6,14 +6,14 @@ const pkg                   = require('../package.json');
 const userController        = require('./user');
 const adminRouter           = require('./admin');
 const clientRouter          = require('./client');
-const groupRouter         = require('./group');
-const productsRouter       = require('./products');
-const servicesRouter       =require('./service');
-const sectorsRouter       =require('./sector');
-const businessRouter       =require('./business');
-const businesstypeRouter       =require('./businesstype');
-const standardRouter       =require('./standard');
-const surveyRouter       =require('./survey');
+const categoryRouter         = require('./category');
+const postRouter       = require('./post');
+// const servicesRouter       =require('./service');
+// const sectorsRouter       =require('./sector'); 
+// const businessRouter       =require('./business');
+// const businesstypeRouter       =require('./businesstype');
+// const standardRouter       =require('./standard');
+const typeRouter       = require('./type');
 
 const config                = require('../config');
 
@@ -23,14 +23,14 @@ module.exports = function initRoutes(app) {
   app.use('/users', userController);
   app.use('/admins', adminRouter);
   app.use('/clients', clientRouter);
-  app.use('/groups', groupRouter);
-  app.use('/products', productsRouter);
-  app.use('/services', servicesRouter);
-  app.use('/sectors', sectorsRouter);
-  app.use('/business', businessRouter);
-  app.use('/businesstypes', businesstypeRouter);
-  app.use('/standards', standardRouter);
-  app.use('/surveys', surveyRouter);
+  app.use('/categories', categoryRouter);
+  app.use('/posts', postRouter);
+  // app.use('/services', servicesRouter);
+  // app.use('/sectors', sectorsRouter);
+  // app.use('/business', businessRouter);
+  // app.use('/businesstypes', businesstypeRouter);
+  // app.use('/standards', standardRouter);
+  app.use('/types', typeRouter);
  
  
 

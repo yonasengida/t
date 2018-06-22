@@ -12,7 +12,7 @@ var Schema = mongoose.Schema;
 
 // creating schema for user
 var UserSchema = new Schema({
-  serviceprovider:{ type: mongoose.Schema.Types.ObjectId, ref: 'ServiceProvider'},
+  
   client:         { type: mongoose.Schema.Types.ObjectId, ref: 'Client'},
   admin:          { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
   username:       { type: String },

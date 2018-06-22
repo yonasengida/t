@@ -7,7 +7,7 @@
  */
 var express   = require('express');
 var debug     = require('debug')('api:product-router');
-var typeController = require('../controllers/type');
+var categoryController = require('../controllers/category');
 var userController = require('../controllers/user');
 var accessControl  = require('../controllers/auth').accessControl;
 
@@ -33,7 +33,7 @@ var router  = express.Router();
     "archived": false
 }
 */
-router.post('/',typeController.create);
+router.post('/',categoryController.create);
 /**
  * @api {get} /types Get types
  * @apiName Gettypes
@@ -64,11 +64,11 @@ router.post('/',typeController.create);
 ]
 
 */
-router.get('/', typeController.fetchAll);
-router.param('id',typeController.validateType);
-router.get('/:id', typeController.fetchOne);
-router.delete('/:id', typeController.deleteType);
-router.put('/:id', typeController.update);
+router.get('/', categoryController.fetchAll);
+router.param('id',categoryController.validateCategory);
+router.get('/:id', categoryController.fetchOne);
+// router.delete('/:id', categoryController.);
+router.put('/:id', categoryController.update);
 
 // Expose User Router
 module.exports = router;

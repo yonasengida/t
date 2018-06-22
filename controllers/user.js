@@ -11,7 +11,6 @@ var UserModel         = require('../models/user');
 var UserDal         = require('../dal/user');
 var AdminDal        = require('../dal/admin');
 var ClientDal       = require('../dal/client');
-var ServiceproviderDal = require('../dal/serviceprovider');
 
 // no operation(noop) function
 exports.noop = function noop(req, res, next) {

@@ -99,7 +99,18 @@ CategoryDal.update({_id:req.doc._id},body, function updateCategory(err,doc){
     res.json(doc);
 });
 };
-
+/**
+ * Delete
+ */
+exports.deleteResource = function deleteResource(req,res,next){
+    var body = req.body;
+    CategoryDal.delete({_id:req.doc._id},function deleteRespource(err,doc){
+        if(err){
+            return next(err);
+        }
+        res.json(doc);
+    });
+    };
 /**
  * Get Posts By Category
  */

@@ -9,8 +9,8 @@ var nodemailer   = require('nodemailer');
 var async        = require('async');
 var config                  = require('../config');
 var ClientDal               = require('../dal/client');
-var SPServiceParameterDal   = require('../dal/spserviceparameter');
-var SPServiceParameterModel = require('../models/spserviceparameter');
+// var SPServiceParameterDal   = require('../dal/spserviceparameter');
+// var SPServiceParameterModel = require('../models/spserviceparameter');
 
 // no operation(noop) function
 exports.noop = function noop(req, res, next) {

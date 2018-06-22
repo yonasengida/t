@@ -46,7 +46,7 @@ if(config.NODE_ENV === 'production'){
  */
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, config.MEDIA.UPLOADES)
+    cb(null, 'public/uploades')
   },
   filename: function (req, file, cb) {
     // cb(null, file.originalname)
@@ -57,7 +57,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage})
 app.use(upload.any());
 // Documentation resource
-app.use('/media', express.static(path.join(__dirname, 'media')));
+// app.use('/media', express.static(path.join(__dirname, 'media')));
 app.use(express.static('public'));
 app.use(express.static('docs'));
 // Enable CORS
@@ -65,17 +65,17 @@ app.use(express.static('docs'));
 app.use(cors(config.CORS_OPTS));
 // Authorization
 app.use(authorize().unless({ path: routes.OPEN_ENDPOINTS } ));
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+// app.use(bodyParser.urlencoded({
+//   extended: true
+// }));
 app.use(bodyParser.json());
-app.use(multipart({
-  limits: {
-    files: 1,
-    fileSize: config.MEDIA.FILE_SIZE
-  },
-  immediate: true
-}));
+// app.use(multipart({
+//   limits: {
+//     files: 1,
+//     fileSize: config.MEDIA.FILE_SIZE
+//   },
+//   immediate: true
+// }));
 app.use(storeMediaFiles());
 app.use(validator());
 

@@ -13,7 +13,7 @@ var config       = require('../config');
 var PostDal      = require('../dal/post');
 var PreferencesDal      = require('../dal/preference');
 var CategorytDal      = require('../dal/category');
-var SectorDal         = require('../dal/sector');
+// var SectorDal         = require('../dal/sector');
 var CommentDal        = require('../dal/comment');
 
 // no operation(noop) function
@@ -64,8 +64,9 @@ exports.validatePost = function validateposts(req, res, next, id) {
   }
 };
 exports.create = function createPosts(req,res,next){
-    
+ 
     var body= req.body;
+    
     var now = moment().toISOString();
     req.checkBody('content')
         .notEmpty().withMessage('Content Should not be empty');
@@ -74,9 +75,17 @@ exports.create = function createPosts(req,res,next){
         .notEmpty().withMessage('Category should not be empty').isMongoId().withMessage('Catgeory Should Be the right ID');
     
     
-    req.checkBody('sector')
-        .notEmpty().withMessage('Sector should not be empty').isMongoId().withMessage('Sector Should Be the right ID');
+    req.checkBody('type')
+        .notEmpty().withMessage('Type should not be empty').isMongoId().withMessage('Type Should Be the right ID');
   
+        if(!req.files[0]){
+            res.status(400);
+                res.json({msg:"File is not passed"});
+                return; 
+        }
+        let dest = 'uploads/' + req.files[0].filename
+        body.image=dest
+        
         var validationErrors = req.validationErrors();
 
     if (validationErrors) {
@@ -85,32 +94,17 @@ exports.create = function createPosts(req,res,next){
         return;
     }
 
-    CategorytDal.get({_id:body.category}, function getCat(err,doc){
-       if(err){
-            return next(err);
-        }
-      if(!doc._id){
-        res.json({error:true,msg:"Category Not Found",status:400});
-        return;
-      }
-        SectorDal.get({_id:body.sector}, function getSector(err,doc){
-            if(!doc._id){
-                res.json({msg:"Sector Not Found"});
-                return;
-            }
+    
             body.created_at= now;
             body.created_by=req._user._id;
-            body.organization=req._user.organization ;
+            // body.organization=req._user.organization ;
             PostDal.create(body, function createPost(err,doc){
                 if(err){
                     return next(err);
                 }
                 res.json(doc);
             });
-        });
-       
-    });
-  
+    
 
 };
 /**
