@@ -7,7 +7,7 @@
 var debug   = require('debug')('api:dal-Type');
 var moment  = require('moment');
 var _       = require('lodash');
-var Type        = require('../models/Type');
+var Type        = require('../models/type');
 var mongoUpdate = require('../lib/mongo-update');
 // var returnFields = Type.whitelist;
 var population = [
