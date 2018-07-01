@@ -83,7 +83,7 @@ exports.create = function createPosts(req,res,next){
                 res.json({msg:"File is not passed"});
                 return; 
         }
-        let dest = 'uploads/' + req.files[0].filename
+        let dest = 'uploades/' + req.files[0].filename
         body.image=dest
         
         var validationErrors = req.validationErrors();

@@ -33,7 +33,10 @@ var population = [
     path:"category",
     select:"-updated_at -created_at -archived_at -archived -created_by"
   },
-  
+  {
+    path:"type",
+    select:"-updated_at -created_at -archived_at -archived -created_by"
+  },
   {
     path:"sector",
     select:"-updated_at -created_at -archived_at -archived -created_by -childs -parent"

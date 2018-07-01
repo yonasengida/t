@@ -17,6 +17,7 @@ var PostSchema = new Schema({
   category:      { type: Schema.Types.ObjectId, ref: 'Category'},
   type :         { type: Schema.Types.ObjectId,ref: 'Type'},
   image :        { type: String},
+  video :        { type: String},
   comments:      [{type: Schema.Types.ObjectId, ref: 'Comment'}],
   status:        {type: String, default:'active'},
   created_by:    { type: Schema.Types.ObjectId, ref: 'User'},
