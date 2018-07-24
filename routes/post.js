@@ -69,6 +69,10 @@ router.param('id',postController.validatePost);
 router.get('/:id', postController.fetchOne);
 // router.delete('/:id', categoryController.);
 router.put('/:id', postController.update);
+router.put('/:id/comments', postController.commentPost);
+router.put('/:id/complains', postController.complainPost);
+router.get('/:id/comments', postController.fetchPostComment);
+router.get('/:id/complains', postController.fetchPostComplains);
 
 // Expose User Router
 module.exports = router;

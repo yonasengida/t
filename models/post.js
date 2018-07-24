@@ -19,6 +19,7 @@ var PostSchema = new Schema({
   image :        { type: String},
   video :        { type: String},
   comments:      [{type: Schema.Types.ObjectId, ref: 'Comment'}],
+  complains:      [{type: Schema.Types.ObjectId, ref: 'Comment'}],
   status:        {type: String, default:'active'},
   created_by:    { type: Schema.Types.ObjectId, ref: 'User'},
   archived :     { type: Boolean, default:false},

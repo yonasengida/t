@@ -225,8 +225,8 @@ exports.removeUser = function removeUser(req, res, next) {
 exports.getUsers = function getUsers(req, res, next) {
   console.log(req._user);
   var options={password:0};
-  // Retrieve all the Users
-  UserDal.getCollection({},options, function getAllUsers(err, docs) {
+   let query =  req.query.query || {};
+  UserDal.getCollection(query,options, function getAllUsers(err, docs) {
     if (err) {
       return next(err);
     }

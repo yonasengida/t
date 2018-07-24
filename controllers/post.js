@@ -214,12 +214,74 @@ exports.commentPost = function commentPost(req,res,next){
      body.created_at= now;
      body.created_by=req._user._id;
      body.post      =req.doc._id;
+     body.type      ='Comment';
     CommentDal.create(body, function createComment(err, doc) {
         if(err){
             return next(err);
         }
         //  console.log(doc)
         PostDal.update({_id:req.doc._id},{$addToSet:{comments:doc._id},updated_at:now}, function updatePost(err,pdoc){
+            if(err){
+                return next(err);
+            }
+            res.json(doc);
+            console.log(doc);
+        });
+    });
+
+};
+/**
+ * GET POST COMMENT
+ */
+exports.fetchPostComment = function fetchAll(req,res,next){
+    var options= {};
+    var query={type:'Comment',post:req.doc._id}
+    CommentDal.getCollection(query,options, function getAll(err,docs){
+        if(err){
+            return next(err);
+        }
+        res.json(docs);
+    });
+};
+/**
+ * GET POST Comaplain
+ */
+exports.fetchPostComplains = function fetchAll(req,res,next){
+    var options= {};
+    var query={type:'Complain',post:req.doc._id}
+    CommentDal.getCollection(query,options, function getAll(err,docs){
+        if(err){
+            return next(err);
+        }
+        res.json(docs);
+    });
+};
+/**
+ * Complain Posts
+ */
+exports.complainPost = function compalainPost(req,res,next){
+    var body = req.body;
+    var now = moment().toISOString();
+    req.checkBody('complain')
+        .notEmpty().withMessage('Compalin Should not be empty');
+
+    var validationErrors = req.validationErrors();
+
+    if (validationErrors) {
+        res.status(400);
+        res.json(validationErrors);
+        return;
+    }
+     body.created_at= now;
+     body.created_by=req._user._id;
+     body.post      =req.doc._id;
+     body.type      ='Complain';
+    CommentDal.create(body, function createComment(err, doc) {
+        if(err){
+            return next(err);
+        }
+        //  console.log(doc)
+        PostDal.update({_id:req.doc._id},{$addToSet:{complains:doc._id},updated_at:now}, function updatePost(err,pdoc){
             if(err){
                 return next(err);
             }

@@ -14,7 +14,9 @@ var Schema = mongoose.Schema;
 var CommentSchema = new Schema({
   post:          { type: Schema.Types.ObjectId, ref: 'Post' },
   comment:       { type: String },
+  complain:      { type: String },
   created_by:    { type: Schema.Types.ObjectId, ref: 'User'},
+  type:          {type:String},
   archived:      { type: Boolean , default:false},
   archived_at:   { type: Date, default:null},
   created_at:    { type: Date},
