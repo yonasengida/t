@@ -65,6 +65,7 @@ router.post('/',postController.create);
 
 */
 router.get('/', postController.fetchAll);
+router.get('/paginate', postController.fetchPaginatedPosts);
 router.param('id',postController.validatePost);
 router.get('/:id', postController.fetchOne);
 // router.delete('/:id', categoryController.);

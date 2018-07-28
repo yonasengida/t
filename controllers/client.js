@@ -207,7 +207,7 @@ exports.changeLanguage = function changeLanguage(req, res, next) {
 exports.uploadProfile = (req, res, next) => {
   debug("Uplaod Profile");
   console.log(req.files[0].filename);
-  let dest = 'uploads/' + req.files[0].filename;
+  let dest = 'uploades/' + req.files[0].filename;
   ClientDal.update({ _id: req._user.client }, { picture: dest }, (err, doc) => {
     if (err) {
       return next(err);

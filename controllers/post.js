@@ -424,3 +424,27 @@ exports.preferencesPost = function preferencesPost(req,res,next){
    
 };
 
+exports.fetchPaginatedPosts = function fetchPaginatedPosts(req,res,next){
+   let page   = this.query.page || 1;
+   let limit  = this.query.per_page || 10;
+   var query =  req.query.query || {};
+
+   let sortType = this.query.sort_by;
+   let sort = {};
+   sortType ? (sort[sortType] = 1) : null;
+
+   let opts = {
+       page: +page,
+       limit: +limit,
+       sort: sort
+   };
+    
+   console.log(query)
+    PostDal.getCollectionByPagination(query,opts, function getAll(err,docs){
+     
+        if(err){
+            return next(err);
+        }
+        res.json(docs);
+    });
+};
